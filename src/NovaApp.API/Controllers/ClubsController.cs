@@ -26,7 +26,7 @@ namespace NovaApp.API.Controllers
             return Ok(clubs);
         }
 
-        // GET api/values/5
+        // GET rest/clubs/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {

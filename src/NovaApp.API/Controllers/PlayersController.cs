@@ -9,7 +9,7 @@ using NovaApp.API.DataProvider;
 
 namespace NovaApp.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("rest/[controller]")]
     public class PlayersController : Controller
     {
         private readonly IDataProvider _dataProvider;
@@ -26,11 +26,19 @@ namespace NovaApp.API.Controllers
             return Ok(players);
         }
 
-        // GET api/values/5
+        // GET rest/players/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             var player = _dataProvider.GetPlayerById(id);
+            return Ok(player);
+        }
+
+        // GET rest/players/5/transactions
+        [HttpGet("{id}/transactions")]
+        public IActionResult GetUserTransactions(int id)
+        {
+            var player = _dataProvider.GetTransactionByUserId(id);
             return Ok(player);
         }
     }

@@ -44,11 +44,11 @@ namespace NovaApp.API.DataProvider
         {
             var data = new List<ClubDataObject>
             {
-                new ClubDataObject{Id = 1, Name = "Nova", City = "Киев", Country = "Украина", PlayersNum = "3", FeePayedNum = "2"},
-                new ClubDataObject{Id = 2, Name = "Gamble", City = "Киев", Country = "Украина", PlayersNum = "2", FeePayedNum = "1"},
+                new ClubDataObject{Id = 1, Name = "Nova", City = "Киев", Country = "Украина", PlayersNum = "2", FeePayedNum = "1"},
+                new ClubDataObject{Id = 2, Name = "Gamble", City = "Киев", Country = "Украина", PlayersNum = "3", FeePayedNum = "2"},
                 new ClubDataObject{Id = 3, Name = "Gigolo", City = "Киев", Country = "Украина", PlayersNum = "1", FeePayedNum = "1"},
-                new ClubDataObject{Id = 4, Name = "Impuls", City = "Киев", Country = "Украина", PlayersNum = "2", FeePayedNum = "0"},
-                new ClubDataObject{Id = 5, Name = "WildWest", City = "Киев", Country = "Украина", PlayersNum = "1", FeePayedNum = "0"},
+                new ClubDataObject{Id = 4, Name = "Impuls", City = "Ивано-Франковск", Country = "Украина", PlayersNum = "2", FeePayedNum = "0"},
+                new ClubDataObject{Id = 5, Name = "WildWest", City = "Львов", Country = "Украина", PlayersNum = "1", FeePayedNum = "0"},
             };
 
             return data;
@@ -60,6 +60,39 @@ namespace NovaApp.API.DataProvider
             var club = clubs.FirstOrDefault(x => x.Id == id);
 
             return club;
+        }
+
+        public List<TransactionDataObject> GetTransactions()
+        {
+            var list = new List<TransactionDataObject>
+            {
+                new TransactionDataObject{ Id = 1, PlayerId = 1, Sum = 100, IsFee = "1", FeeYear = "2015", Comment = "", Time = "2016-12-27 17:21:40"},
+                new TransactionDataObject{ Id = 2, PlayerId = 1, Sum = 100, IsFee = "1", FeeYear = "2016", Comment = "", Time = "2016-12-27 17:21:42"},
+                new TransactionDataObject{ Id = 3, PlayerId = 2, Sum = 100, IsFee = "1", FeeYear = "2017", Comment = "", Time = "2016-12-27 17:21:45"},
+                new TransactionDataObject{ Id = 4, PlayerId = 1, Sum = 25.1, IsFee = "0", FeeYear = "", Comment = "На Микстовую Сборную", Time = "2016-12-27 17:22:15"},
+                new TransactionDataObject{ Id = 5, PlayerId = 3, Sum = 100, IsFee = "1", FeeYear = "2017", Comment = "", Time = "2016-12-27 17:28:36"},
+                new TransactionDataObject{ Id = 6, PlayerId = 4, Sum = 100, IsFee = "1", FeeYear = "2017", Comment = "", Time = "2017-01-19 17:04:35"},
+                new TransactionDataObject{ Id = 7, PlayerId = 5, Sum = 100, IsFee = "1", FeeYear = "2016", Comment = "", Time = "2017-01-19 17:04:55"},
+                new TransactionDataObject{ Id = 8, PlayerId = 4, Sum = 50, IsFee = "0", FeeYear = "", Comment = "На Микстовую Сборную", Time = "2017-01-19 17:05:16"},
+                new TransactionDataObject{ Id = 9, PlayerId = 6, Sum = 100, IsFee = "1", FeeYear = "2017", Comment = "", Time = "2017-01-19 17:07:23"},
+            };
+
+            return list;
+        }
+
+        public List<TransactionDataObject> GetTransactionByUserId(int userId)
+        {
+            var transactions = GetTransactions();
+            var userTransactions = transactions.Where(x => x.PlayerId == userId).ToList();
+            return userTransactions;
+        }
+
+        public TransactionDataObject GetTransactionById(int id)
+        {
+            var transactions = GetTransactions();
+            var transaction = transactions.FirstOrDefault(x => x.Id == id);
+
+            return transaction;
         }
     }
 }
