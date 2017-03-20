@@ -14,6 +14,10 @@ namespace NovaApp.API.DataProvider
         PlayerDataObject GetPlayerById(int id);
         List<PlayerDataObject> GetPlayerByClubId(int id);
         PlayerDataObject AddPlayer(PlayerDataObject player);
+        PlayerDataObject PatchPlayer(int playerId, PlayerDataObject player);
+        PlayerDataObject PutPlayer(int playerId, PlayerDataObject player);
+        void DeletePlayer(int playerId);
+
 
         List<ClubDataObject> GetClubs();
         ClubDataObject GetClubById(int id);

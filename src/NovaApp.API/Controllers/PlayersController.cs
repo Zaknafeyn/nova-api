@@ -32,6 +32,30 @@ namespace NovaApp.API.Controllers
             return Created(url, resPlayer);
         }
 
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody] PlayerDataObject player)
+        {
+            var resPlayer = DataProvider.PutPlayer(id, player);
+
+            return Ok(resPlayer);
+        }
+
+        [HttpPatch("{id}")]
+        public IActionResult Patch(int id, [FromBody] PlayerDataObject player)
+        {
+            var resPlayer = DataProvider.PatchPlayer(id, player);
+
+            return Ok(resPlayer);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
+            DataProvider.DeletePlayer(id);
+
+            return Ok();
+        }
+
         // GET rest/players/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)

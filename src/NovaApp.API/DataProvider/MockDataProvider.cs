@@ -22,6 +22,7 @@ namespace NovaApp.API.DataProvider
 
         private readonly List<ClubDataObject> _listOfClubs = new List<ClubDataObject>
         {
+            new ClubDataObject{Id = 0, Name = "Без клуба", Country = "Украина", PlayersNum = 0, FeePayedNum = 0},
             new ClubDataObject{Id = 1, Name = "Nova", City = "Киев", Country = "Украина", PlayersNum = 2, FeePayedNum = 1},
             new ClubDataObject{Id = 2, Name = "Gamble", City = "Киев", Country = "Украина", PlayersNum = 3, FeePayedNum = 2},
             new ClubDataObject{Id = 3, Name = "Gigolo", City = "Киев", Country = "Украина", PlayersNum = 1, FeePayedNum = 1},
@@ -123,6 +124,8 @@ namespace NovaApp.API.DataProvider
                 {
                     club.FeePayedNum++;
                 }
+
+                return player;
             }
 
             return player;
@@ -136,6 +139,68 @@ namespace NovaApp.API.DataProvider
             _listOfClubs.Add(club);
 
             return club;
+        }
+
+        public PlayerDataObject PatchPlayer(int playerId, PlayerDataObject player)
+        {
+            var originalPlayer = _listOfPlayers.FirstOrDefault(x => x.Id == playerId);
+            if (originalPlayer == null)
+                return null;
+
+            if (!string.IsNullOrEmpty(player.AvatarFilename))
+                originalPlayer.AvatarFilename = player.AvatarFilename;
+
+            if (!string.IsNullOrEmpty(player.BirthDate))
+                originalPlayer.BirthDate = player.BirthDate;
+
+            if (player.ClubId != originalPlayer.ClubId)
+                originalPlayer.Id = playerId;
+
+            if (!string.IsNullOrEmpty(player.FeePayed))
+                originalPlayer.FeePayed = player.FeePayed;
+
+            if (!string.IsNullOrEmpty(player.FirstName))
+                originalPlayer.FirstName = player.FirstName;
+
+            if (!string.IsNullOrEmpty(player.LastName))
+                originalPlayer.LastName = player.LastName;
+
+            if (!string.IsNullOrEmpty(player.NickName))
+                originalPlayer.NickName = player.NickName;
+
+            return originalPlayer;
+        }
+
+        public PlayerDataObject PutPlayer(int playerId, PlayerDataObject player)
+        {
+            var originalPlayer = _listOfPlayers.FirstOrDefault(x => x.Id == playerId);
+            if (originalPlayer == null)
+                return null;
+
+            originalPlayer.AvatarFilename = player.AvatarFilename;
+
+            originalPlayer.BirthDate = player.BirthDate;
+
+            originalPlayer.ClubId = player.ClubId;
+
+            originalPlayer.FeePayed = player.FeePayed;
+
+            originalPlayer.FirstName = player.FirstName;
+
+            originalPlayer.LastName = player.LastName;
+
+            originalPlayer.NickName = player.NickName;
+
+            return originalPlayer;
+        }
+
+        public void DeletePlayer(int playerId)
+        {
+            var player = _listOfPlayers.FirstOrDefault(x => x.Id == playerId);
+            if (player == null)
+                return;
+
+            _listOfPlayers.Remove(player);
         }
     }
 }
