@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using NovaApp.API.DataObjects;
 
@@ -6,11 +7,9 @@ namespace NovaApp.API.DataProvider
 {
     public class MockDataProvider : IDataProvider
     {
-        public List<PlayerDataObject> GetPlayers()
+        private readonly List<PlayerDataObject> _listOfPlayers = new List<PlayerDataObject>
         {
-            var data = new List<PlayerDataObject>
-            {
-                new PlayerDataObject{Id = 1, FirstName = "Dmytro", LastName = "Babych", NickName = "d.babych", AvatarFilename = "", ClubId = 1, BirthDate = "1983-01-08", FeePayed = "0"},
+            new PlayerDataObject{Id = 1, FirstName = "Dmytro", LastName = "Babych", NickName = "d.babych", AvatarFilename = "", ClubId = 1, BirthDate = "1983-01-08", FeePayed = "0"},
                 new PlayerDataObject{Id = 2, FirstName = "Anna", LastName = "Slienzak", NickName = "Анечка", AvatarFilename = "", ClubId = 2, BirthDate = "1989-11-19", FeePayed = "1"},
                 new PlayerDataObject{Id = 3, FirstName = "Dmytro", LastName = "Strelchyn", NickName = "Стрела", AvatarFilename = "", ClubId = 1, BirthDate = "", FeePayed = "1"},
                 new PlayerDataObject{Id = 4, FirstName = "Galina", LastName = "Marchenko", NickName = "Галя", AvatarFilename = "", ClubId = 2, BirthDate = "", FeePayed = "1"},
@@ -19,9 +18,33 @@ namespace NovaApp.API.DataProvider
                 new PlayerDataObject{Id = 7, FirstName = "Ден", LastName = "Жарков", NickName = "", AvatarFilename = "", ClubId = 4, BirthDate = "", FeePayed = "0"},
                 new PlayerDataObject{Id = 8, FirstName = "Алексей", LastName = "Стабровский", NickName = "Лешечка", AvatarFilename = "", ClubId = 5, BirthDate = "", FeePayed = "0"},
                 new PlayerDataObject{Id = 9, FirstName = "Влад", LastName = "Паневник", NickName = "", AvatarFilename = "", ClubId = 4, BirthDate = "", FeePayed = "0"},
-            };
+        };
 
-            return data;
+        private readonly List<ClubDataObject> _listOfClubs = new List<ClubDataObject>
+        {
+            new ClubDataObject{Id = 1, Name = "Nova", City = "Киев", Country = "Украина", PlayersNum = 2, FeePayedNum = 1},
+            new ClubDataObject{Id = 2, Name = "Gamble", City = "Киев", Country = "Украина", PlayersNum = 3, FeePayedNum = 2},
+            new ClubDataObject{Id = 3, Name = "Gigolo", City = "Киев", Country = "Украина", PlayersNum = 1, FeePayedNum = 1},
+            new ClubDataObject{Id = 4, Name = "Impuls", City = "Ивано-Франковск", Country = "Украина", PlayersNum = 2, FeePayedNum = 0},
+            new ClubDataObject{Id = 5, Name = "WildWest", City = "Львов", Country = "Украина", PlayersNum = 1, FeePayedNum = 0},
+        };
+
+        private readonly List<TransactionDataObject> _listOfTransactions = new List<TransactionDataObject>
+        {
+            new TransactionDataObject{ Id = 1, PlayerId = 1, Sum = 100, IsFee = "1", FeeYear = "2015", Comment = "", Time = "2016-12-27 17:21:40"},
+            new TransactionDataObject{ Id = 2, PlayerId = 1, Sum = 100, IsFee = "1", FeeYear = "2016", Comment = "", Time = "2016-12-27 17:21:42"},
+            new TransactionDataObject{ Id = 3, PlayerId = 2, Sum = 100, IsFee = "1", FeeYear = "2017", Comment = "", Time = "2016-12-27 17:21:45"},
+            new TransactionDataObject{ Id = 4, PlayerId = 1, Sum = 25.1, IsFee = "0", FeeYear = "", Comment = "На Микстовую Сборную", Time = "2016-12-27 17:22:15"},
+            new TransactionDataObject{ Id = 5, PlayerId = 3, Sum = 100, IsFee = "1", FeeYear = "2017", Comment = "", Time = "2016-12-27 17:28:36"},
+            new TransactionDataObject{ Id = 6, PlayerId = 4, Sum = 100, IsFee = "1", FeeYear = "2017", Comment = "", Time = "2017-01-19 17:04:35"},
+            new TransactionDataObject{ Id = 7, PlayerId = 5, Sum = 100, IsFee = "1", FeeYear = "2016", Comment = "", Time = "2017-01-19 17:04:55"},
+            new TransactionDataObject{ Id = 8, PlayerId = 4, Sum = 50, IsFee = "0", FeeYear = "", Comment = "На Микстовую Сборную", Time = "2017-01-19 17:05:16"},
+            new TransactionDataObject{ Id = 9, PlayerId = 6, Sum = 100, IsFee = "1", FeeYear = "2017", Comment = "", Time = "2017-01-19 17:07:23"},
+        };
+
+        public List<PlayerDataObject> GetPlayers()
+        {
+            return _listOfPlayers;
         }
 
         public PlayerDataObject GetPlayerById(int id)
@@ -42,16 +65,7 @@ namespace NovaApp.API.DataProvider
 
         public List<ClubDataObject> GetClubs()
         {
-            var data = new List<ClubDataObject>
-            {
-                new ClubDataObject{Id = 1, Name = "Nova", City = "Киев", Country = "Украина", PlayersNum = "2", FeePayedNum = "1"},
-                new ClubDataObject{Id = 2, Name = "Gamble", City = "Киев", Country = "Украина", PlayersNum = "3", FeePayedNum = "2"},
-                new ClubDataObject{Id = 3, Name = "Gigolo", City = "Киев", Country = "Украина", PlayersNum = "1", FeePayedNum = "1"},
-                new ClubDataObject{Id = 4, Name = "Impuls", City = "Ивано-Франковск", Country = "Украина", PlayersNum = "2", FeePayedNum = "0"},
-                new ClubDataObject{Id = 5, Name = "WildWest", City = "Львов", Country = "Украина", PlayersNum = "1", FeePayedNum = "0"},
-            };
-
-            return data;
+            return _listOfClubs;
         }
 
         public ClubDataObject GetClubById(int id)
@@ -64,20 +78,7 @@ namespace NovaApp.API.DataProvider
 
         public List<TransactionDataObject> GetTransactions()
         {
-            var list = new List<TransactionDataObject>
-            {
-                new TransactionDataObject{ Id = 1, PlayerId = 1, Sum = 100, IsFee = "1", FeeYear = "2015", Comment = "", Time = "2016-12-27 17:21:40"},
-                new TransactionDataObject{ Id = 2, PlayerId = 1, Sum = 100, IsFee = "1", FeeYear = "2016", Comment = "", Time = "2016-12-27 17:21:42"},
-                new TransactionDataObject{ Id = 3, PlayerId = 2, Sum = 100, IsFee = "1", FeeYear = "2017", Comment = "", Time = "2016-12-27 17:21:45"},
-                new TransactionDataObject{ Id = 4, PlayerId = 1, Sum = 25.1, IsFee = "0", FeeYear = "", Comment = "На Микстовую Сборную", Time = "2016-12-27 17:22:15"},
-                new TransactionDataObject{ Id = 5, PlayerId = 3, Sum = 100, IsFee = "1", FeeYear = "2017", Comment = "", Time = "2016-12-27 17:28:36"},
-                new TransactionDataObject{ Id = 6, PlayerId = 4, Sum = 100, IsFee = "1", FeeYear = "2017", Comment = "", Time = "2017-01-19 17:04:35"},
-                new TransactionDataObject{ Id = 7, PlayerId = 5, Sum = 100, IsFee = "1", FeeYear = "2016", Comment = "", Time = "2017-01-19 17:04:55"},
-                new TransactionDataObject{ Id = 8, PlayerId = 4, Sum = 50, IsFee = "0", FeeYear = "", Comment = "На Микстовую Сборную", Time = "2017-01-19 17:05:16"},
-                new TransactionDataObject{ Id = 9, PlayerId = 6, Sum = 100, IsFee = "1", FeeYear = "2017", Comment = "", Time = "2017-01-19 17:07:23"},
-            };
-
-            return list;
+            return _listOfTransactions;
         }
 
         public List<TransactionDataObject> GetTransactionByUserId(int userId)
@@ -93,6 +94,48 @@ namespace NovaApp.API.DataProvider
             var transaction = transactions.FirstOrDefault(x => x.Id == id);
 
             return transaction;
+        }
+
+        public TransactionDataObject AddTransaction(TransactionDataObject transaction)
+        {
+            var maxId = _listOfTransactions.Max(x => x.Id);
+            transaction.Id = maxId + 1;
+
+            transaction.Time = DateTime.Now.ToString("u");
+
+            _listOfTransactions.Add(transaction);
+
+            return transaction;
+        }
+
+        public PlayerDataObject AddPlayer(PlayerDataObject player)
+        {
+            var maxId = _listOfPlayers.Max(x => x.Id);
+            player.Id = maxId + 1;
+
+            _listOfPlayers.Add(player);
+
+            var club = _listOfClubs.FirstOrDefault(x => x.Id == player.ClubId);
+            if (club != null)
+            {
+                club.PlayersNum++;
+                if (player.FeePayed == "1")
+                {
+                    club.FeePayedNum++;
+                }
+            }
+
+            return player;
+        }
+
+        public ClubDataObject AddClub(ClubDataObject club)
+        {
+            var maxId = _listOfClubs.Max(x => x.Id);
+            club.Id = maxId + 1;
+
+            _listOfClubs.Add(club);
+
+            return club;
         }
     }
 }

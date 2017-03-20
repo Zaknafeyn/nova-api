@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using NovaApp.API.DataObjects;
 using NovaApp.API.DataProvider;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -10,27 +7,34 @@ using NovaApp.API.DataProvider;
 namespace NovaApp.API.Controllers
 {
     [Route("rest/[controller]")]
-    public class ClubsController : Controller
+    public class ClubsController : BaseController
     {
-        private readonly IDataProvider _dataProvider;
-
-        public ClubsController(IDataProvider dataProvider)
+        public ClubsController(IDataProvider dataProvider) : base(dataProvider)
         {
-            _dataProvider = dataProvider;
         }
 
         [HttpGet]
         public IActionResult Get()
         {
-            var clubs = _dataProvider.GetClubs();
+            var clubs = DataProvider.GetClubs();
             return Ok(clubs);
+        }
+
+        [HttpPost]
+        public IActionResult Post([FromBody] ClubDataObject club)
+        {
+            var resClub = DataProvider.AddClub(club);
+
+            var url = AbsoluteAction(ControllerContext, "Get", "clubs", new { id = resClub.Id });
+
+            return Created(url, resClub);
         }
 
         // GET rest/clubs/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var club = _dataProvider.GetClubById(id);
+            var club = DataProvider.GetClubById(id);
             return Ok(club);
         }
 
@@ -38,7 +42,7 @@ namespace NovaApp.API.Controllers
         [HttpGet("{id}/players")]
         public IActionResult GetClubPlayers(int id)
         {
-            var players = _dataProvider.GetPlayerByClubId(id);
+            var players = DataProvider.GetPlayerByClubId(id);
             return Ok(players);
         }
     }

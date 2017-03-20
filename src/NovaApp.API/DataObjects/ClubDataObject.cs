@@ -20,9 +20,9 @@ namespace NovaApp.API.DataObjects
         public string LogoFilename { get; set; }
 
         [JsonProperty("playersNum")]
-        public string PlayersNum { get; set; }
+        public int PlayersNum { get; set; }
 
         [JsonProperty("feePayedNum")]
-        public string FeePayedNum { get; set; }
+        public int FeePayedNum { get; set; }
     }
 }

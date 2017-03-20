@@ -20,7 +20,7 @@ namespace NovaApp.API.DataObjects
         public string AvatarFilename { get; set; }
 
         [JsonProperty("clubID")]
-        public int ClubId { get; set; }
+        public int? ClubId { get; set; }
 
         [JsonProperty("birthDate")]
         public string BirthDate { get; set; }
