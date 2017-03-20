@@ -58,6 +58,13 @@ namespace NovaApp.API.DataProvider
 
         public List<PlayerDataObject> GetPlayerByClubId(int id)
         {
+            if (id == 0)
+            {
+                // players without a club
+                var playerwWithoutClub = _listOfPlayers.Where(x => !x.ClubId.HasValue).ToList();
+                return playerwWithoutClub;
+            }
+
             var allPlayers = GetPlayers();
             var clubPlayers = allPlayers.Where(x => x.ClubId == id).ToList();
 
