@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NovaApp.API.DataObjects;
+using NovaApp.API.DataObjects.PlayerObjects;
 
 namespace NovaApp.API.DataProvider
 {
@@ -10,12 +11,12 @@ namespace NovaApp.API.DataProvider
         TransactionDataObject GetTransactionById(int id);
         TransactionDataObject AddTransaction(TransactionDataObject transaction);
 
-        List<PlayerDataObject> GetPlayers();
-        PlayerDataObject GetPlayerById(int id);
-        List<PlayerDataObject> GetPlayerByClubId(int id);
-        PlayerDataObject AddPlayer(PlayerDataObject player);
-        PlayerDataObject PatchPlayer(int playerId, PlayerDataObject player);
-        PlayerDataObject PutPlayer(int playerId, PlayerDataObject player);
+        List<ExtendedPlayerDataObject> GetPlayers();
+        ExtendedPlayerDataObject GetPlayerById(int id);
+        List<ExtendedPlayerDataObject> GetPlayerByClubId(int id);
+        ExtendedPlayerDataObject AddPlayer(ExtendedPlayerDataObject player);
+        ExtendedPlayerDataObject PatchPlayer(int playerId, ExtendedPlayerDataObject player);
+        ExtendedPlayerDataObject PutPlayer(int playerId, ExtendedPlayerDataObject player);
         void DeletePlayer(int playerId);
 
 

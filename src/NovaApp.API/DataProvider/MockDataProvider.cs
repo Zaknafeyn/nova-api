@@ -2,22 +2,23 @@
 using System.Collections.Generic;
 using System.Linq;
 using NovaApp.API.DataObjects;
+using NovaApp.API.DataObjects.PlayerObjects;
 
 namespace NovaApp.API.DataProvider
 {
     public class MockDataProvider : IDataProvider
     {
-        private readonly List<PlayerDataObject> _listOfPlayers = new List<PlayerDataObject>
+        private readonly List<ExtendedPlayerDataObject> _listOfPlayers = new List<ExtendedPlayerDataObject>
         {
-            new PlayerDataObject{Id = 1, FirstName = "Dmytro", LastName = "Babych", NickName = "d.babych", AvatarFilename = "", ClubId = 1, BirthDate = "1983-01-08", FeePayed = "0"},
-                new PlayerDataObject{Id = 2, FirstName = "Anna", LastName = "Slienzak", NickName = "Анечка", AvatarFilename = "", ClubId = 2, BirthDate = "1989-11-19", FeePayed = "1"},
-                new PlayerDataObject{Id = 3, FirstName = "Dmytro", LastName = "Strelchyn", NickName = "Стрела", AvatarFilename = "", ClubId = 1, BirthDate = "", FeePayed = "1"},
-                new PlayerDataObject{Id = 4, FirstName = "Galina", LastName = "Marchenko", NickName = "Галя", AvatarFilename = "", ClubId = 2, BirthDate = "", FeePayed = "1"},
-                new PlayerDataObject{Id = 5, FirstName = "Asya", LastName = "Dzyubenka", NickName = "", AvatarFilename = "", ClubId = 2, BirthDate = "", FeePayed = "0"},
-                new PlayerDataObject{Id = 6, FirstName = "Oleksandr", LastName = "Stakhovsky", NickName = "", AvatarFilename = "", ClubId = 3, BirthDate = "", FeePayed = "1"},
-                new PlayerDataObject{Id = 7, FirstName = "Ден", LastName = "Жарков", NickName = "", AvatarFilename = "", ClubId = 4, BirthDate = "", FeePayed = "0"},
-                new PlayerDataObject{Id = 8, FirstName = "Алексей", LastName = "Стабровский", NickName = "Лешечка", AvatarFilename = "", ClubId = 5, BirthDate = "", FeePayed = "0"},
-                new PlayerDataObject{Id = 9, FirstName = "Влад", LastName = "Паневник", NickName = "", AvatarFilename = "", ClubId = 4, BirthDate = "", FeePayed = "0"},
+            new ExtendedPlayerDataObject{Id = 1, FirstName = "Dmytro", LastName = "Babych", NickName = "d.babych", AvatarFilename = "", ClubId = 1, BirthDate = "1983-01-08", FeePayed = "0"},
+            new ExtendedPlayerDataObject{Id = 2, FirstName = "Anna", LastName = "Slienzak", NickName = "Анечка", AvatarFilename = "", ClubId = 2, BirthDate = "1989-11-19", FeePayed = "1"},
+            new ExtendedPlayerDataObject{Id = 3, FirstName = "Dmytro", LastName = "Strelchyn", NickName = "Стрела", AvatarFilename = "", ClubId = 1, BirthDate = "", FeePayed = "1"},
+            new ExtendedPlayerDataObject{Id = 4, FirstName = "Galina", LastName = "Marchenko", NickName = "Галя", AvatarFilename = "", ClubId = 2, BirthDate = "", FeePayed = "1"},
+            new ExtendedPlayerDataObject{Id = 5, FirstName = "Asya", LastName = "Dzyubenka", NickName = "", AvatarFilename = "", ClubId = 2, BirthDate = "", FeePayed = "0"},
+            new ExtendedPlayerDataObject{Id = 6, FirstName = "Oleksandr", LastName = "Stakhovsky", NickName = "", AvatarFilename = "", ClubId = 3, BirthDate = "", FeePayed = "1"},
+            new ExtendedPlayerDataObject{Id = 7, FirstName = "Ден", LastName = "Жарков", NickName = "", AvatarFilename = "", ClubId = 4, BirthDate = "", FeePayed = "0"},
+            new ExtendedPlayerDataObject{Id = 8, FirstName = "Алексей", LastName = "Стабровский", NickName = "Лешечка", AvatarFilename = "", ClubId = 5, BirthDate = "", FeePayed = "0"},
+            new ExtendedPlayerDataObject{Id = 9, FirstName = "Влад", LastName = "Паневник", NickName = "", AvatarFilename = "", ClubId = 4, BirthDate = "", FeePayed = "0"},
         };
 
         private readonly List<ClubDataObject> _listOfClubs = new List<ClubDataObject>
@@ -43,12 +44,12 @@ namespace NovaApp.API.DataProvider
             new TransactionDataObject{ Id = 9, PlayerId = 6, Sum = 100, IsFee = "1", FeeYear = "2017", Comment = "", Time = "2017-01-19 17:07:23"},
         };
 
-        public List<PlayerDataObject> GetPlayers()
+        public List<ExtendedPlayerDataObject> GetPlayers()
         {
             return _listOfPlayers;
         }
 
-        public PlayerDataObject GetPlayerById(int id)
+        public ExtendedPlayerDataObject GetPlayerById(int id)
         {
             var players = GetPlayers();
             var player = players.FirstOrDefault(x => x.Id == id);
@@ -56,7 +57,7 @@ namespace NovaApp.API.DataProvider
             return player;
         }
 
-        public List<PlayerDataObject> GetPlayerByClubId(int id)
+        public List<ExtendedPlayerDataObject> GetPlayerByClubId(int id)
         {
             if (id == 0)
             {
@@ -116,7 +117,7 @@ namespace NovaApp.API.DataProvider
             return transaction;
         }
 
-        public PlayerDataObject AddPlayer(PlayerDataObject player)
+        public ExtendedPlayerDataObject AddPlayer(ExtendedPlayerDataObject player)
         {
             var maxId = _listOfPlayers.Max(x => x.Id);
             player.Id = maxId + 1;
@@ -148,7 +149,7 @@ namespace NovaApp.API.DataProvider
             return club;
         }
 
-        public PlayerDataObject PatchPlayer(int playerId, PlayerDataObject player)
+        public ExtendedPlayerDataObject PatchPlayer(int playerId, ExtendedPlayerDataObject player)
         {
             var originalPlayer = _listOfPlayers.FirstOrDefault(x => x.Id == playerId);
             if (originalPlayer == null)
@@ -175,10 +176,30 @@ namespace NovaApp.API.DataProvider
             if (!string.IsNullOrEmpty(player.NickName))
                 originalPlayer.NickName = player.NickName;
 
+            // extended values
+
+            if (!string.IsNullOrEmpty(player.Email))
+                originalPlayer.Email = player.Email;
+
+            if (!string.IsNullOrEmpty(player.FacebookAccessToken))
+                originalPlayer.FacebookAccessToken = player.FacebookAccessToken;
+
+            if (!string.IsNullOrEmpty(player.FacebookUserId))
+                originalPlayer.FacebookUserId = player.FacebookUserId;
+
+            if (!string.IsNullOrEmpty(player.GoogleIdToken))
+                originalPlayer.GoogleIdToken = player.GoogleIdToken;
+
+            if (!string.IsNullOrEmpty(player.Password))
+                originalPlayer.Password = player.Password;
+
+            if (!player.FacebookExpiresIn.HasValue)
+                originalPlayer.FacebookExpiresIn = player.FacebookExpiresIn;
+
             return originalPlayer;
         }
 
-        public PlayerDataObject PutPlayer(int playerId, PlayerDataObject player)
+        public ExtendedPlayerDataObject PutPlayer(int playerId, ExtendedPlayerDataObject player)
         {
             var originalPlayer = _listOfPlayers.FirstOrDefault(x => x.Id == playerId);
             if (originalPlayer == null)
@@ -197,6 +218,20 @@ namespace NovaApp.API.DataProvider
             originalPlayer.LastName = player.LastName;
 
             originalPlayer.NickName = player.NickName;
+
+            // extendede values
+
+            originalPlayer.Email = player.Email;
+
+            originalPlayer.FacebookAccessToken = player.FacebookAccessToken;
+
+            originalPlayer.FacebookUserId = player.FacebookUserId;
+
+            originalPlayer.GoogleIdToken = player.GoogleIdToken;
+
+            originalPlayer.Password = player.Password;
+
+            originalPlayer.FacebookExpiresIn = player.FacebookExpiresIn;
 
             return originalPlayer;
         }

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace NovaApp.API.DataObjects
+namespace NovaApp.API.DataObjects.PlayerObjects
 {
     public class PlayerDataObject
     {

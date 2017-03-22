@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 using NovaApp.API.DataObjects;
+using NovaApp.API.DataObjects.PlayerObjects;
 using NovaApp.API.DataProvider;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -23,7 +24,7 @@ namespace NovaApp.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] PlayerDataObject player)
+        public IActionResult Post([FromBody] ExtendedPlayerDataObject player)
         {
             var resPlayer = DataProvider.AddPlayer(player);
 
@@ -33,7 +34,7 @@ namespace NovaApp.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] PlayerDataObject player)
+        public IActionResult Put(int id, [FromBody] ExtendedPlayerDataObject player)
         {
             var resPlayer = DataProvider.PutPlayer(id, player);
 
@@ -41,7 +42,7 @@ namespace NovaApp.API.Controllers
         }
 
         [HttpPatch("{id}")]
-        public IActionResult Patch(int id, [FromBody] PlayerDataObject player)
+        public IActionResult Patch(int id, [FromBody] ExtendedPlayerDataObject player)
         {
             var resPlayer = DataProvider.PatchPlayer(id, player);
 

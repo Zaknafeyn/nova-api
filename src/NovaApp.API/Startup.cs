@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
+using Newtonsoft.Json;
 using NovaApp.API.DataProvider;
 
 namespace NovaApp.API
@@ -26,7 +27,10 @@ namespace NovaApp.API
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(options =>
+            {
+                options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+            });
             
             services.AddSingleton<IDataProvider, MockDataProvider>();
         }
