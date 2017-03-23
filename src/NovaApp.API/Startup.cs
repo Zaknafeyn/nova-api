@@ -1,11 +1,15 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Collections.Generic;
+using System.IO.Compression;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using NovaApp.API.DataProvider;
+using Swashbuckle.Swagger.Model;
 
 namespace NovaApp.API
 {
@@ -31,7 +35,35 @@ namespace NovaApp.API
             {
                 options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             });
-            
+
+            services.AddSwaggerGen(
+                x =>
+                {
+                    x.DescribeAllEnumsAsStrings();
+                });
+
+            services.ConfigureSwaggerGen(
+                setup =>
+                {
+                    setup.SingleApiVersion(
+                        new Info
+                        {
+                            Version = "v1",
+                            Description = "UFDF Central API",
+                            Title = "UFDF Central API",
+                            TermsOfService = "None",
+                        });
+                });
+
+            services.Configure<GzipCompressionProviderOptions>(config => config.Level = CompressionLevel.Optimal);
+            services.AddResponseCompression(
+                config =>
+                {
+                    config.EnableForHttps = true;
+                    config.Providers.Add<GzipCompressionProvider>();
+                    config.MimeTypes = ResponseCompressionDefaults.MimeTypes;
+                });
+
             services.AddSingleton<IDataProvider, MockDataProvider>();
         }
 
@@ -44,6 +76,10 @@ namespace NovaApp.API
             loggerFactory.AddDebug(LogLevel.Trace);
 
             UseCustomCors(app);
+
+            app.UseResponseCompression();
+
+            UseCustomSwagger(app);
 
             app.UseMvc();
         }
@@ -61,7 +97,7 @@ namespace NovaApp.API
 
                     if (httpContext.Request.Method == "OPTIONS") return;
                 }
-                
+
                 await next();
             });
 
@@ -72,6 +108,20 @@ namespace NovaApp.API
                 builder.AllowAnyOrigin();
                 builder.AllowCredentials();
             });
+
+            return app;
+        }
+
+        public static IApplicationBuilder UseCustomSwagger(IApplicationBuilder app)
+        {
+            app.UseSwagger(
+                (request, doc) =>
+                {
+
+                    doc.Schemes = new List<string> { "http", "https" };
+                });
+
+            app.UseSwaggerUi();
 
             return app;
         }
