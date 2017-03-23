@@ -22,5 +22,8 @@ namespace NovaApp.API.DataObjects.PlayerObjects
 
         [JsonProperty("ggIdToken")]
         public string GoogleIdToken { get; set; }
+
+        [JsonProperty("vkId")]
+        public string VkontakteUserId { get; set; }
     }
 }

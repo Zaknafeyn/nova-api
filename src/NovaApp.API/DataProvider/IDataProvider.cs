@@ -12,6 +12,10 @@ namespace NovaApp.API.DataProvider
         TransactionDataObject AddTransaction(TransactionDataObject transaction);
 
         List<ExtendedPlayerDataObject> GetPlayers();
+        ExtendedPlayerDataObject GetPlayerByEmailOrNull(string email);
+        ExtendedPlayerDataObject GetPlayerByFbIdOrNull(string fbId);
+        ExtendedPlayerDataObject GetPlayerByVkIdOrNull(string vkId);
+        ExtendedPlayerDataObject GetPlayerByGoogleIdOrNull(string googleId);
         ExtendedPlayerDataObject GetPlayerById(int id);
         List<ExtendedPlayerDataObject> GetPlayerByClubId(int id);
         ExtendedPlayerDataObject AddPlayer(ExtendedPlayerDataObject player);

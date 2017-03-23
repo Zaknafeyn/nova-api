@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 using NovaApp.API.DataObjects;
 using NovaApp.API.DataObjects.PlayerObjects;
 using NovaApp.API.DataProvider;
+using NovaApp.API.QueryParams;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -17,10 +19,60 @@ namespace NovaApp.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get([FromQuery] PlayerQueryParams playerParams)
         {
-            var players = DataProvider.GetPlayers();
-            return Ok(players);
+            if (playerParams == null || playerParams.IsEmpty())
+            {
+                var players = DataProvider.GetPlayers();
+                return Ok(players);
+            }
+
+            if (playerParams.IsMultipleIdsProvided())
+                return BadRequest();
+
+            var response = new List<PlayerDataObject>();
+
+            if (!string.IsNullOrEmpty(playerParams.FacebookId))
+            {
+                var playerByFb = DataProvider.GetPlayerByFbIdOrNull(playerParams.FacebookId);
+                if (playerByFb == null)
+                {
+                    return NotFound();
+                }
+                response.Add(playerByFb);
+            }
+
+            if (!string.IsNullOrEmpty(playerParams.VkId))
+            {
+                var playerByVk = DataProvider.GetPlayerByVkIdOrNull(playerParams.VkId);
+                if (playerByVk == null)
+                {
+                    return NotFound();
+                }
+                response.Add(playerByVk);
+            }
+
+            if (!string.IsNullOrEmpty(playerParams.GoogleId))
+            {
+                var playerByGoogleId = DataProvider.GetPlayerByGoogleIdOrNull(playerParams.GoogleId);
+                if (playerByGoogleId == null)
+                {
+                    return NotFound();
+                }
+                response.Add(playerByGoogleId);
+            }
+
+            if (!string.IsNullOrEmpty(playerParams.Email))
+            {
+                var playerByEmail = DataProvider.GetPlayerByEmailOrNull(playerParams.Email);
+                if (playerByEmail == null)
+                {
+                    return NotFound();
+                }
+                response.Add(playerByEmail);
+            }
+
+            return Ok(response);
         }
 
         [HttpPost]

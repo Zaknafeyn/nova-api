@@ -10,7 +10,7 @@ namespace NovaApp.API.DataProvider
     {
         private readonly List<ExtendedPlayerDataObject> _listOfPlayers = new List<ExtendedPlayerDataObject>
         {
-            new ExtendedPlayerDataObject{Id = 1, FirstName = "Dmytro", LastName = "Babych", NickName = "d.babych", AvatarFilename = "", ClubId = 1, BirthDate = "1983-01-08", FeePayed = "0"},
+            new ExtendedPlayerDataObject{Id = 1, FirstName = "Dmytro", LastName = "Babych", NickName = "d.babych", AvatarFilename = "", ClubId = 1, BirthDate = "1983-01-08", FeePayed = "0", Email = "d.babych@gmail.com"},
             new ExtendedPlayerDataObject{Id = 2, FirstName = "Anna", LastName = "Slienzak", NickName = "Анечка", AvatarFilename = "", ClubId = 2, BirthDate = "1989-11-19", FeePayed = "1"},
             new ExtendedPlayerDataObject{Id = 3, FirstName = "Dmytro", LastName = "Strelchyn", NickName = "Стрела", AvatarFilename = "", ClubId = 1, BirthDate = "", FeePayed = "1"},
             new ExtendedPlayerDataObject{Id = 4, FirstName = "Galina", LastName = "Marchenko", NickName = "Галя", AvatarFilename = "", ClubId = 2, BirthDate = "", FeePayed = "1"},
@@ -243,6 +243,30 @@ namespace NovaApp.API.DataProvider
                 return;
 
             _listOfPlayers.Remove(player);
+        }
+
+        public ExtendedPlayerDataObject GetPlayerByEmailOrNull(string email)
+        {
+            var player = _listOfPlayers.FirstOrDefault(x => x.Email == email);
+            return player;
+        }
+
+        public ExtendedPlayerDataObject GetPlayerByFbIdOrNull(string fbId)
+        {
+            var player = _listOfPlayers.FirstOrDefault(x => x.FacebookUserId == fbId);
+            return player;
+        }
+
+        public ExtendedPlayerDataObject GetPlayerByVkIdOrNull(string vkId)
+        {
+            var player = _listOfPlayers.FirstOrDefault(x => x.VkontakteUserId== vkId);
+            return player;
+        }
+
+        public ExtendedPlayerDataObject GetPlayerByGoogleIdOrNull(string googleId)
+        {
+            var player = _listOfPlayers.FirstOrDefault(x => x.GoogleIdToken == googleId);
+            return player;
         }
     }
 }
