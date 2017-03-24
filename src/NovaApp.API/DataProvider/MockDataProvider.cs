@@ -166,7 +166,7 @@ namespace NovaApp.API.DataProvider
                 originalPlayer.BirthDate = player.BirthDate;
 
             if (player.ClubId.HasValue && player.ClubId != originalPlayer.ClubId)
-                originalPlayer.Id = player.ClubId.Value;
+                originalPlayer.ClubId = player.ClubId;
 
             if (!string.IsNullOrEmpty(player.FeePayed))
                 originalPlayer.FeePayed = player.FeePayed;
