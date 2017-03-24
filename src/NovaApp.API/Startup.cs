@@ -92,7 +92,7 @@ namespace NovaApp.API
                 {
                     httpContext.Response.Headers.Add("Access-Control-Allow-Origin", new StringValues(httpContext.Request.Headers["Origin"].ToArray()));
                     httpContext.Response.Headers.Add("Access-Control-Allow-Headers", new[] { "Origin, X-Requested-With, Content-Type, Accept, Authorization, SC-Service-Link" });
-                    httpContext.Response.Headers.Add("Access-Control-Allow-Methods", new[] { "GET, POST, PUT, DELETE, OPTIONS" });
+                    httpContext.Response.Headers.Add("Access-Control-Allow-Methods", new[] { "GET, POST, PATCH, PUT, DELETE, OPTIONS" });
                     httpContext.Response.Headers.Add("Access-Control-Allow-Credentials", new[] { "true" });
 
                     if (httpContext.Request.Method == "OPTIONS") return;
