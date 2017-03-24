@@ -30,7 +30,7 @@ namespace NovaApp.API.Controllers
             if (playerParams.IsMultipleIdsProvided())
                 return BadRequest();
 
-            var response = new List<PlayerDataObject>();
+            
 
             if (!string.IsNullOrEmpty(playerParams.FacebookId))
             {
@@ -39,7 +39,7 @@ namespace NovaApp.API.Controllers
                 {
                     return NotFound();
                 }
-                response.Add(playerByFb);
+                return Ok(playerByFb);
             }
 
             if (!string.IsNullOrEmpty(playerParams.VkId))
@@ -49,7 +49,7 @@ namespace NovaApp.API.Controllers
                 {
                     return NotFound();
                 }
-                response.Add(playerByVk);
+                return Ok(playerByVk);
             }
 
             if (!string.IsNullOrEmpty(playerParams.GoogleId))
@@ -59,7 +59,7 @@ namespace NovaApp.API.Controllers
                 {
                     return NotFound();
                 }
-                response.Add(playerByGoogleId);
+                return Ok(playerByGoogleId);
             }
 
             if (!string.IsNullOrEmpty(playerParams.Email))
@@ -69,10 +69,10 @@ namespace NovaApp.API.Controllers
                 {
                     return NotFound();
                 }
-                response.Add(playerByEmail);
+                return Ok(playerByEmail);
             }
 
-            return Ok(response);
+            return NotFound();
         }
 
         [HttpPost]
