@@ -200,6 +200,16 @@ namespace NovaApp.API.DataProvider
             if (!player.FacebookExpiresIn.HasValue)
                 originalPlayer.FacebookExpiresIn = player.FacebookExpiresIn;
 
+            // update club info if player moved to other club
+            var club = _listOfClubs.FirstOrDefault(x => x.Id == originalPlayer.ClubId);
+            if (club == null)
+                return originalPlayer;
+
+            var clubPlayersCount = _listOfPlayers.Count(x => x.ClubId == club.Id);
+            var clubPlayersPayedFeeCount = _listOfPlayers.Count(x => x.ClubId == club.Id && x.FeePayed == "1");
+            club.PlayersNum = clubPlayersCount;
+            club.FeePayedNum = clubPlayersPayedFeeCount;
+
             return originalPlayer;
         }
 
@@ -263,7 +273,7 @@ namespace NovaApp.API.DataProvider
 
         public ExtendedPlayerDataObject GetPlayerByVkIdOrNull(string vkId)
         {
-            var player = _listOfPlayers.FirstOrDefault(x => x.VkontakteUserId== vkId);
+            var player = _listOfPlayers.FirstOrDefault(x => x.VkontakteUserId == vkId);
             return player;
         }
 
