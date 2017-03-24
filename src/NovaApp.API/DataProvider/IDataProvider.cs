@@ -24,7 +24,7 @@ namespace NovaApp.API.DataProvider
         void DeletePlayer(int playerId);
 
 
-        List<ClubDataObject> GetClubs();
+        List<ClubDataObject> GetClubs(bool showEmptyClub);
         ClubDataObject GetClubById(int id);
         ClubDataObject AddClub(ClubDataObject club);
     }

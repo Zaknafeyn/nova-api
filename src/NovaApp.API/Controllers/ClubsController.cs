@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NovaApp.API.DataObjects;
 using NovaApp.API.DataProvider;
+using NovaApp.API.QueryParams;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,9 +15,10 @@ namespace NovaApp.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get([FromQuery] ClubQueryParams clubParams)
         {
-            var clubs = DataProvider.GetClubs();
+            var showEmptyClub = clubParams?.ShowEmptyClub ?? true;
+            var clubs = DataProvider.GetClubs(showEmptyClub);
             return Ok(clubs);
         }
 

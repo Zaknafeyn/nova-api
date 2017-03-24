@@ -72,9 +72,13 @@ namespace NovaApp.API.DataProvider
             return clubPlayers;
         }
 
-        public List<ClubDataObject> GetClubs()
+        public List<ClubDataObject> GetClubs(bool showEmptyClub = false)
         {
-            return _listOfClubs;
+            if (showEmptyClub)
+                return _listOfClubs;
+
+            var result = _listOfClubs.Where(x => x.Id != 0).ToList();
+            return result;
         }
 
         public ClubDataObject GetClubById(int id)
