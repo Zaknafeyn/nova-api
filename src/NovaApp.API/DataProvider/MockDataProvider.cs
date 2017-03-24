@@ -166,10 +166,28 @@ namespace NovaApp.API.DataProvider
                 originalPlayer.BirthDate = player.BirthDate;
 
             if (player.ClubId.HasValue && player.ClubId != originalPlayer.ClubId)
+            {
+                // update club info if player moved to other club
+                var prevClub = originalPlayer.ClubId;
+                var newClub = player.ClubId;
+
                 originalPlayer.ClubId = player.ClubId;
 
+                UpdateClubStats(prevClub);
+                UpdateClubStats(newClub);
+            }
+
+
             if (!string.IsNullOrEmpty(player.FeePayed))
+            {
+                var prevClub = originalPlayer.ClubId;
+                var newClub = player.ClubId;
+
                 originalPlayer.FeePayed = player.FeePayed;
+
+                UpdateClubStats(prevClub);
+                UpdateClubStats(newClub);
+            }
 
             if (!string.IsNullOrEmpty(player.FirstName))
                 originalPlayer.FirstName = player.FirstName;
@@ -200,16 +218,6 @@ namespace NovaApp.API.DataProvider
             if (!player.FacebookExpiresIn.HasValue)
                 originalPlayer.FacebookExpiresIn = player.FacebookExpiresIn;
 
-            // update club info if player moved to other club
-            var club = _listOfClubs.FirstOrDefault(x => x.Id == originalPlayer.ClubId);
-            if (club == null)
-                return originalPlayer;
-
-            var clubPlayersCount = _listOfPlayers.Count(x => x.ClubId == club.Id);
-            var clubPlayersPayedFeeCount = _listOfPlayers.Count(x => x.ClubId == club.Id && x.FeePayed == "1");
-            club.PlayersNum = clubPlayersCount;
-            club.FeePayedNum = clubPlayersPayedFeeCount;
-
             return originalPlayer;
         }
 
@@ -223,7 +231,13 @@ namespace NovaApp.API.DataProvider
 
             originalPlayer.BirthDate = player.BirthDate;
 
+            var prevClub = originalPlayer.ClubId;
+            var newClub = player.ClubId;
+
             originalPlayer.ClubId = player.ClubId;
+
+            UpdateClubStats(prevClub);
+            UpdateClubStats(newClub);
 
             originalPlayer.FeePayed = player.FeePayed;
 
@@ -257,6 +271,7 @@ namespace NovaApp.API.DataProvider
                 return;
 
             _listOfPlayers.Remove(player);
+            UpdateClubStats(player.ClubId);
         }
 
         public ExtendedPlayerDataObject GetPlayerByEmailOrNull(string email)
@@ -281,6 +296,21 @@ namespace NovaApp.API.DataProvider
         {
             var player = _listOfPlayers.FirstOrDefault(x => x.GoogleIdToken == googleId);
             return player;
+        }
+
+        private void UpdateClubStats(int? clubId)
+        {
+            if (!clubId.HasValue)
+                return;
+
+            var club = _listOfClubs.FirstOrDefault(x => x.Id == clubId);
+            if (club == null)
+                return;
+
+            var clubPlayersCount = _listOfPlayers.Count(x => x.ClubId == club.Id);
+            var clubPlayersPayedFeeCount = _listOfPlayers.Count(x => x.ClubId == club.Id && x.FeePayed == "1");
+            club.PlayersNum = clubPlayersCount;
+            club.FeePayedNum = clubPlayersPayedFeeCount;
         }
     }
 }
