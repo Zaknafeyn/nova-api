@@ -21,24 +21,12 @@ namespace NovaApp.API.Controllers
         [HttpPost]
         public IActionResult BuildCredentials([FromBody] LiqPayDataObject liqPayData)
         {
-            var data = GetBase64String(liqPayData);
             var liqPayPrivateKey = _config[Consts.LiqPaySecretKeyString];
-            var sigRawString = $"{liqPayPrivateKey}{data}{liqPayPrivateKey}";
-            
-            var buffer = Encoding.UTF8.GetBytes(sigRawString);
-            var sha1 = SHA1.Create();
-            var hash = sha1.ComputeHash(buffer);
-            var signature = Convert.ToBase64String(hash);
+
+            var data = liqPayData.GetBase64String();
+            var signature = LiqPayHelper.GetSignature(data, liqPayPrivateKey);
 
             return Ok(new {data, signature});
-        }
-
-        private string GetBase64String(LiqPayDataObject liqPayData)
-        {
-            var dataString = JsonConvert.SerializeObject(liqPayData);
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(dataString);
-            var base64String = Convert.ToBase64String(plainTextBytes);
-            return base64String;
         }
     }
 }
