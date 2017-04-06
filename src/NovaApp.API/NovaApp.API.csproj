@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="DataObjects\LiqPayObjects\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

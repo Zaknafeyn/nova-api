@@ -10,11 +10,9 @@ namespace NovaApp.API.Controllers
     [Route("rest/[controller]")]
     public class CredentialsController : Controller
     {
-        private const string LiqPaySecretKeyString = "liqPaySecretKey";
-
         private readonly List<string> _settingsKeys = new List<string>
         {
-            LiqPaySecretKeyString
+            Consts.LiqPaySecretKeyString
         };
 
         private readonly IConfigurationRoot _configuration;
