@@ -23,10 +23,9 @@ namespace NovaApp.API.Controllers
 
         // POST api/values
         [HttpPost]
-        public IActionResult Post([FromQuery]string data, [FromQuery] string signature, [FromBody] dynamic bodyStr)
+        public IActionResult Post([FromQuery]string data, [FromQuery] string signature)
         {
-            var body = bodyStr == null ? "body is empty" : bodyStr;
-            var value = $"data: '{data}', signature: '{signature}', body: '{body}'";
+            var value = $"data: '{data}', signature: '{signature}'";
             Data.Add(value);
             return Ok(value);
         }
