@@ -39,6 +39,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="1.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="1.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.ResponseCompression" Version="1.0.0" />
+    <PackageReference Include="MySql.Data.EntityFrameworkCore" Version="7.0.7-m61" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
     <PackageReference Include="Swashbuckle.SwaggerGen" Version="6.0.0-beta901" />
     <PackageReference Include="Swashbuckle.SwaggerUi" Version="6.0.0-beta901" />
