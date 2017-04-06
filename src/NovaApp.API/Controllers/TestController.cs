@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -23,9 +24,11 @@ namespace NovaApp.API.Controllers
 
         // POST api/values
         [HttpPost]
-        public IActionResult Post([FromQuery]string data, [FromQuery] string signature)
+        public IActionResult Post([FromForm] IFormCollection form)
         {
-            var value = $"data: '{data}', signature: '{signature}'";
+            var formDataStr = form.Select(x => $"{x.Key}:{x.Value} ");
+            var result = string.Join(",", formDataStr.ToArray());
+            var value = $"FormData: {result}";
             Data.Add(value);
             return Ok(value);
         }
