@@ -15,7 +15,7 @@ namespace NovaApp.API.DataObjects.LiqPayObjects
         public string PublicKey { get; set; }
 
         [JsonProperty("amount")]
-        public int Amount { get; set; }
+        public decimal Amount { get; set; }
 
         [JsonProperty("currency")]
         public string Currency { get; set; }
