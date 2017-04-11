@@ -8,7 +8,7 @@
 
         public string PurposeDescription { get; set; }
 
-        public decimal FeedAmount { get; set; }
+        public decimal FeeAmount { get; set; }
 
         public bool IsPurposeEditable { get; set; }
 
