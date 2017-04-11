@@ -11,9 +11,9 @@ using NovaApp.API.DataProvider;
 namespace NovaApp.API.Controllers
 {
     [Route("rest/[controller]")]
-    public class PaymentPurposeController : BaseController
+    public class PaymentPurposesController : BaseController
     {
-        public PaymentPurposeController(IDataProvider dataProvider) : base(dataProvider)
+        public PaymentPurposesController(IDataProvider dataProvider) : base(dataProvider)
         {
         }
 
@@ -41,7 +41,7 @@ namespace NovaApp.API.Controllers
         {
             var result = DataProvider.AddPaymentPurposes(paymentPurpose);
 
-            var url = AbsoluteAction(ControllerContext, "Get", "paymentPurpose", new { id = result.Id });
+            var url = AbsoluteAction(ControllerContext, "Get", "paymentPurposes", new { id = result.Id });
 
             return Created(url, result);
         }
