@@ -10,10 +10,10 @@ namespace NovaApp.API.DataProvider
     {
         private readonly List<PaymentPurposeDataObject> _listOfPaymentPurposes = new List<PaymentPurposeDataObject>
         {
-            new PaymentPurposeDataObject { Id = 1, PurposeName = "Членский взнос UFDF", PurposeDescription = "Оплата членского взноса за 2017 год", FeedAmount = 100 },
-            new PaymentPurposeDataObject { Id = 2, PurposeName = "Взнос сборной (Open)", PurposeDescription = "Членский взнос сборной команды (Open)", FeedAmount = 200},
-            new PaymentPurposeDataObject { Id = 3, PurposeName = "Взнос сборной (Mix)", PurposeDescription = "Членский взнос сборной (Mix)", FeedAmount = 200},
-            new PaymentPurposeDataObject { Id = 4, PurposeName = "Добровольный взнос", PurposeDescription = "Добровольный взнос на развитие федерации", FeedAmount = 100, IsPurposeEditable = true},
+            new PaymentPurposeDataObject { Id = 1, PurposeName = "Членский взнос UFDF", PurposeDescription = "Оплата членского взноса за 2017 год", FeeAmount = 100 },
+            new PaymentPurposeDataObject { Id = 2, PurposeName = "Взнос сборной (Open)", PurposeDescription = "Членский взнос сборной команды (Open)", FeeAmount = 200},
+            new PaymentPurposeDataObject { Id = 3, PurposeName = "Взнос сборной (Mix)", PurposeDescription = "Членский взнос сборной (Mix)", FeeAmount = 200},
+            new PaymentPurposeDataObject { Id = 4, PurposeName = "Добровольный взнос", PurposeDescription = "Добровольный взнос на развитие федерации", FeeAmount = 100, IsPurposeEditable = true},
         };
 
         private readonly List<ExtendedPlayerDataObject> _listOfPlayers = new List<ExtendedPlayerDataObject>
@@ -356,8 +356,8 @@ namespace NovaApp.API.DataProvider
             if (paymentPurpose.IsDisabled != result.IsDisabled)
                 result.IsDisabled = paymentPurpose.IsDisabled;
 
-            if (paymentPurpose.FeedAmount != result.FeedAmount)
-                result.FeedAmount = paymentPurpose.FeedAmount;
+            if (paymentPurpose.FeeAmount != result.FeeAmount)
+                result.FeeAmount = paymentPurpose.FeeAmount;
 
             return result;
         }
