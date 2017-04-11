@@ -41,7 +41,7 @@ namespace NovaApp.API.Controllers
         {
             var result = DataProvider.AddPaymentPurposes(paymentPurpose);
 
-            var url = AbsoluteAction(ControllerContext, "Get", "paymentPurposes", new { id = result.Id });
+            var url = AbsoluteAction(ControllerContext, "Get", "paymentPurpose", new { id = result.Id });
 
             return Created(url, result);
         }
