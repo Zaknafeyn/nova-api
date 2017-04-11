@@ -347,16 +347,16 @@ namespace NovaApp.API.DataProvider
             if (result == null)
                 return null;
 
-            if (paymentPurpose.PurposeName != result.PurposeName)
+            if (!string.IsNullOrEmpty(paymentPurpose.PurposeName) && paymentPurpose.PurposeName != result.PurposeName)
                 result.PurposeName = paymentPurpose.PurposeName;
 
-            if (paymentPurpose.PurposeDescription != result.PurposeDescription)
+            if (!string.IsNullOrEmpty(paymentPurpose.PurposeDescription) &&  paymentPurpose.PurposeDescription != result.PurposeDescription)
                 result.PurposeDescription = result.PurposeDescription;
 
             if (paymentPurpose.IsDisabled != result.IsDisabled)
                 result.IsDisabled = paymentPurpose.IsDisabled;
 
-            if (paymentPurpose.FeeAmount != result.FeeAmount)
+            if (paymentPurpose.FeeAmount > 0 && paymentPurpose.FeeAmount != result.FeeAmount)
                 result.FeeAmount = paymentPurpose.FeeAmount;
 
             return result;

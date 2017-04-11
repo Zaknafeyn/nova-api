@@ -18,9 +18,11 @@ namespace NovaApp.API.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get([FromQuery] bool enabledOnly)
         {
             var result = DataProvider.GetPaymentPurposes();
+            if (enabledOnly)
+                result = result.Where(x => !x.IsDisabled).ToList();
 
             return Ok(result);
         }
