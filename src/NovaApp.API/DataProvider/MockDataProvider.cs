@@ -8,6 +8,14 @@ namespace NovaApp.API.DataProvider
 {
     public class MockDataProvider : IDataProvider
     {
+        private readonly List<PaymentPurposeDataObject> _listOfPaymentPurposes = new List<PaymentPurposeDataObject>
+        {
+            new PaymentPurposeDataObject { Id = 1, PurposeName = "Членский взнос UFDF", PurposeDescription = "Оплата членского взноса за 2017 год", FeedAmount = 100 },
+            new PaymentPurposeDataObject { Id = 2, PurposeName = "Взнос сборной (Open)", PurposeDescription = "Членский взнос сборной команды (Open)", FeedAmount = 200},
+            new PaymentPurposeDataObject { Id = 3, PurposeName = "Взнос сборной (Mix)", PurposeDescription = "Членский взнос сборной (Mix)", FeedAmount = 200},
+            new PaymentPurposeDataObject { Id = 4, PurposeName = "Добровольный взнос", PurposeDescription = "Добровольный взнос на развитие федерации", FeedAmount = 100, IsPurposeEditable = true},
+        };
+
         private readonly List<ExtendedPlayerDataObject> _listOfPlayers = new List<ExtendedPlayerDataObject>
         {
             new ExtendedPlayerDataObject{Id = 1, FirstName = "Dmytro", LastName = "Babych", NickName = "d.babych", AvatarFilename = "", ClubId = 1, BirthDate = "1983-01-08", FeePayed = "0", Email = "d.babych@gmail.com"},
@@ -311,6 +319,47 @@ namespace NovaApp.API.DataProvider
             var clubPlayersPayedFeeCount = _listOfPlayers.Count(x => x.ClubId == club.Id && x.FeePayed == "1");
             club.PlayersNum = clubPlayersCount;
             club.FeePayedNum = clubPlayersPayedFeeCount;
+        }
+
+        public PaymentPurposeDataObject GetPaymentPurposeById(int id)
+        {
+            var result = _listOfPaymentPurposes.FirstOrDefault(x => x.Id == id);
+            return result;
+        }
+
+        public List<PaymentPurposeDataObject> GetPaymentPurposes()
+        {
+            return _listOfPaymentPurposes;
+        }
+
+        public PaymentPurposeDataObject AddPaymentPurposes(PaymentPurposeDataObject paymentPurpose)
+        {
+            var latestId = _listOfPaymentPurposes.Max(x => x.Id);
+            paymentPurpose.Id = latestId + 1;
+            _listOfPaymentPurposes.Add(paymentPurpose);
+
+            return paymentPurpose;
+        }
+
+        public PaymentPurposeDataObject PatchPaymentPurposes(int paymentPurposeId, PaymentPurposeDataObject paymentPurpose)
+        {
+            var result = _listOfPaymentPurposes.FirstOrDefault(x => x.Id == paymentPurposeId);
+            if (result == null)
+                return null;
+
+            if (paymentPurpose.PurposeName != result.PurposeName)
+                result.PurposeName = paymentPurpose.PurposeName;
+
+            if (paymentPurpose.PurposeDescription != result.PurposeDescription)
+                result.PurposeDescription = result.PurposeDescription;
+
+            if (paymentPurpose.IsDisabled != result.IsDisabled)
+                result.IsDisabled = paymentPurpose.IsDisabled;
+
+            if (paymentPurpose.FeedAmount != result.FeedAmount)
+                result.FeedAmount = paymentPurpose.FeedAmount;
+
+            return result;
         }
     }
 }

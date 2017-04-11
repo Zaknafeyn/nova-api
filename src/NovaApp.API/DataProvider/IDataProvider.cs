@@ -23,9 +23,13 @@ namespace NovaApp.API.DataProvider
         ExtendedPlayerDataObject PutPlayer(int playerId, ExtendedPlayerDataObject player);
         void DeletePlayer(int playerId);
 
-
         List<ClubDataObject> GetClubs(bool showEmptyClub);
         ClubDataObject GetClubById(int id);
         ClubDataObject AddClub(ClubDataObject club);
+
+        PaymentPurposeDataObject GetPaymentPurposeById(int id);
+        List<PaymentPurposeDataObject> GetPaymentPurposes();
+        PaymentPurposeDataObject AddPaymentPurposes(PaymentPurposeDataObject paymentPurpose);
+        PaymentPurposeDataObject PatchPaymentPurposes(int paymentPurposeId, PaymentPurposeDataObject paymentPurpose);
     }
 }

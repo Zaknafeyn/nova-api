@@ -54,6 +54,7 @@ namespace NovaApp.API
                             Title = "UFDF Central API",
                             TermsOfService = "None",
                         });
+                    setup.DescribeStringEnumsInCamelCase();
                 });
 
             services.Configure<GzipCompressionProviderOptions>(config => config.Level = CompressionLevel.Optimal);
